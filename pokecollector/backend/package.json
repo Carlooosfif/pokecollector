@@ -1,0 +1,52 @@
+{
+  "name": "pokecollector-backend",
+  "version": "1.0.0",
+  "description": "Backend API para PokéCollector - Sistema de Coleccionismo de Cartas Pokémon",
+  "main": "dist/app.js",
+  "scripts": {
+    "dev": "nodemon src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "ts-node prisma/seed.ts",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "helmet": "^7.2.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "tsconfig-paths": "^4.2.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.23",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.19.6",
+    "@types/uuid": "^9.0.8",
+    "nodemon": "^3.1.10",
+    "prisma": "^5.22.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "keywords": [
+    "pokemon",
+    "cards",
+    "collection",
+    "typescript",
+    "node"
+  ],
+  "author": "Tu Nombre",
+  "license": "MIT",
+  "directories": {
+    "test": "tests"
+  }
+}

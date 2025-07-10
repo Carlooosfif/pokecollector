@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  role         String    @default("COMMON")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // Relaciones
+  userCards     UserCard[]
+  createdAlbums Album[]   @relation("AlbumCreator")
+
+  @@map("users")
+}
+
+model Album {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  generation  Int
+  totalCards  Int      @default(0) @map("total_cards")
+  imageUrl    String?  @map("image_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  createdById String?  @map("created_by")
+
+  // Relaciones
+  createdBy   User?    @relation("AlbumCreator", fields: [createdById], references: [id])
+  cards       Card[]
+
+  @@map("albums")
+}
+
+model Card {
+  id          String     @id @default(cuid())
+  name        String
+  number      Int
+  rarity      String // <- ya no enum
+  type        String?
+  albumId     String     @map("album_id")
+  imageUrl    String?    @map("image_url")
+  description String?
+
+  album       Album      @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  userCards   UserCard[]
+
+  @@unique([albumId, number], name: "unique_card_per_album")
+  @@map("cards")
+}
+
+
+model UserCard {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  cardId     String   @map("card_id")
+  obtainedAt DateTime @default(now()) @map("obtained_at")
+  quantity   Int      @default(1)
+
+  // Relaciones
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  card       Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, cardId], name: "unique_user_card")
+  @@map("user_cards")
+}

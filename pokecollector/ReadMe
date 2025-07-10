@@ -1,0 +1,133 @@
+🃏 PokéCollector - Proyecto Académico
+PokéCollector es una aplicación fullstack creada para demostrar buenas prácticas de desarrollo de software, aplicando principios SOLID, patrones de diseño, y separación de responsabilidades usando tecnologías modernas como Node.js, React y TypeScript.
+
+🎯 Objetivo del Proyecto
+El objetivo principal fue mejorar un sistema anterior desarrollado en ASP.NET Core MVC, aplicando mejoras técnicas y de arquitectura:
+
+✔️ Aplicar Principios SOLID (como SRP y DIP)
+
+✔️ Usar Patrones de diseño (Factory, Repository, Singleton)
+
+✔️ Crear una API RESTful en JSON
+
+✔️ Desarrollar un frontend moderno con React
+
+✔️ Implementar autenticación con JWT y roles (admin / usuario)
+
+🏗️ Estructura del Proyecto
+🔧 Backend (Node.js + TypeScript)
+graphql
+Copiar
+Editar
+backend/
+├── config/         # Configuración general
+├── controllers/    # Lógica de rutas
+├── middleware/     # Validaciones y seguridad
+├── models/         # Interfaces y DTOs
+├── repositories/   # Acceso a datos (Repository)
+├── services/       # Lógica de negocio (SRP)
+├── factories/      # Patrón Factory Method
+├── routes/         # Definición de rutas
+├── prisma/         # Base de datos SQLite con Prisma
+└── app.ts          # Entry point
+🎨 Frontend (React + TypeScript)
+bash
+Copiar
+Editar
+frontend/
+├── components/     # Componentes reutilizables
+├── context/        # Estado global (Context API)
+├── pages/          # Vistas del sistema
+├── services/       # Conexión con la API
+├── styles/         # CSS puro
+└── types/          # Tipos TS
+🚀 Cómo Ejecutarlo
+1. Clonar el proyecto
+bash
+Copiar
+Editar
+git clone https://github.com/tu-usuario/pokecollector.git
+2. Instalar y correr el backend
+bash
+Copiar
+Editar
+cd backend
+npm install
+npx prisma generate
+npx prisma db push
+npm run db:seed
+npm run dev
+3. Instalar y correr el frontend
+bash
+Copiar
+Editar
+cd ../frontend
+npm install
+npm run dev
+🔐 Credenciales de Prueba
+Rol	Correo	Contraseña
+Admin	admin@pokecollector.com	admin123
+Usuario	ash@pokecollector.com	user123
+Usuario 2	misty@pokecollector.com	user123
+
+🔑 Funcionalidades
+Usuario común
+Ver cartas y álbumes disponibles
+
+Agregar cartas a su colección
+
+Ver su ranking y estadísticas
+
+Administrador
+Crear álbumes y cartas
+
+Administrar usuarios
+
+Ver ranking general
+
+📦 Tecnologías Usadas
+Node.js + Express
+
+Prisma + SQLite
+
+JWT para autenticación
+
+React + Vite
+
+Axios para conexión API
+
+CSS puro sin frameworks externos
+
+✅ Principios SOLID Aplicados
+SRP (Responsabilidad Única)
+Separamos las funciones de los controladores, servicios y repositorios para que cada uno se encargue de una sola cosa.
+
+DIP (Inversión de Dependencias)
+Usamos interfaces para que los servicios no dependan directamente de implementaciones concretas.
+
+🧠 Patrones de Diseño Usados
+Patrón	Uso en el proyecto
+Factory	Crear repositorios según necesidad
+Repository	Encapsular lógica de acceso a datos
+Singleton	Conexión a base de datos única
+
+🧪 Pruebas Realizadas
+Registro e inicio de sesión de usuario
+
+Acceso a endpoints protegidos
+
+Agregar cartas a la colección
+
+Ver ranking global
+
+🌐 API REST (ejemplos)
+http
+Copiar
+Editar
+POST /api/auth/login
+GET  /api/users/profile
+GET  /api/cards
+POST /api/cards/collection
+🎓 Conclusión
+Este proyecto nos permitió practicar lo aprendido en clases sobre arquitectura limpia, buenas prácticas de desarrollo, y desarrollo fullstack moderno. Implementamos una solución funcional, probada, y escalable, que cumple con lo solicitado para el cierre del semestre.
+

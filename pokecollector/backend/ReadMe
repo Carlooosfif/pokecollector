@@ -1,0 +1,285 @@
+# 🃏 PokéCollector Backend
+
+Sistema de coleccionismo de cartas Pokémon desarrollado con Node.js, TypeScript, SQLite y Prisma.
+
+## 🚀 Instalación y Configuración
+
+### Prerrequisitos
+- Node.js (versión 18 o superior)
+- npm o yarn
+- Visual Studio Code (recomendado)
+
+### 1. Clonar y configurar el proyecto
+
+```bash
+# Instalar dependencias
+npm install
+
+# Copiar archivo de entorno
+cp .env.example .env
+```
+
+### 2. Configurar variables de entorno
+
+Edita el archivo `.env` con tus configuraciones:
+
+```env
+# Database
+DATABASE_URL="file:./dev.db"
+
+# JWT
+JWT_SECRET="tu_clave_secreta_muy_segura_aqui_cambiala"
+JWT_EXPIRES_IN="7d"
+
+# Server
+PORT=3001
+NODE_ENV="development"
+
+# CORS
+CORS_ORIGIN="http://localhost:3000"
+```
+
+### 3. Configurar la base de datos
+
+```bash
+# Generar cliente de Prisma
+npm run db:generate
+
+# Crear base de datos y tablas
+npm run db:push
+
+# Poblar con datos iniciales
+npm run db:seed
+```
+
+### 4. Ejecutar el servidor
+
+```bash
+# Modo desarrollo (con recarga automática)
+npm run dev
+
+# Modo producción
+npm run build
+npm start
+```
+
+El servidor estará disponible en: `http://localhost:3001`
+
+## 📡 API Endpoints
+
+### 🔐 Autenticación
+
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| POST | `/api/auth/register` | Registrar usuario | No |
+| POST | `/api/auth/login` | Iniciar sesión | No |
+| GET | `/api/auth/validate` | Validar token | No |
+
+### 👥 Usuarios
+
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/users/profile` | Obtener perfil | Sí |
+| PUT | `/api/users/profile` | Actualizar perfil | Sí |
+| GET | `/api/users/stats` | Estadísticas del usuario | Sí |
+| GET | `/api/users/ranking` | Ranking de usuarios | No |
+| GET | `/api/users` | Listar usuarios | Admin |
+
+### 📚 Álbumes
+
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/albums` | Listar álbumes | No |
+| GET | `/api/albums/:id` | Obtener álbum | No |
+| POST | `/api/albums` | Crear álbum | Admin |
+| PUT | `/api/albums/:id` | Actualizar álbum | Admin |
+| DELETE | `/api/albums/:id` | Eliminar álbum | Admin |
+
+### 🃏 Cartas
+
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/cards` | Listar cartas | No |
+| GET | `/api/cards/:id` | Obtener carta | No |
+| GET | `/api/cards/album/:albumId` | Cartas por álbum | No |
+| POST | `/api/cards` | Crear carta | Admin |
+| PUT | `/api/cards/:id` | Actualizar carta | Admin |
+| DELETE | `/api/cards/:id` | Eliminar carta | Admin |
+
+### 🎒 Colección de Usuario
+
+| Método | Endpoint | Descripción | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/cards/collection/my` | Mi colección | Sí |
+| POST | `/api/cards/collection` | Agregar carta | Sí |
+| DELETE | `/api/cards/collection/:cardId` | Quitar carta | Sí |
+| PUT | `/api/cards/collection/:userCardId/quantity` | Actualizar cantidad | Sí |
+
+## 🧪 Datos de Prueba
+
+Después del seed, tendrás estos usuarios disponibles:
+
+```
+Admin: admin@pokecollector.com / admin123
+Usuario 1: ash@pokecollector.com / user123
+Usuario 2: misty@pokecollector.com / user123
+Usuario 3: brock@pokecollector.com / user123
+```
+
+## 🔨 Comandos Útiles
+
+```bash
+# Desarrollo
+npm run dev                 # Ejecutar en modo desarrollo
+npm run build              # Compilar TypeScript
+npm start                  # Ejecutar versión compilada
+
+# Base de datos
+npm run db:generate        # Generar cliente Prisma
+npm run db:push           # Sincronizar esquema con BD
+npm run db:migrate        # Crear migración
+npm run db:seed           # Poblar con datos iniciales
+npm run db:studio         # Abrir Prisma Studio
+
+# Utilidades
+npm run test              # Ejecutar tests (cuando estén configurados)
+```
+
+## 🏗️ Arquitectura del Proyecto
+
+### Principios SOLID Aplicados:
+
+1. **Single Responsibility Principle (SRP)**:
+   - Cada clase tiene una única responsabilidad
+   - Controladores solo manejan HTTP
+   - Servicios solo contienen lógica de negocio
+   - Repositorios solo manejan acceso a datos
+
+2. **Dependency Inversion Principle (DIP)**:
+   - Uso de interfaces para abstraer dependencias
+   - Inyección de dependencias a través del Factory Pattern
+
+### Patrones de Diseño:
+
+1. **Repository Pattern**: Abstrae el acceso a datos
+2. **Factory Method Pattern**: Crea instancias de repositorios
+3. **Singleton Pattern**: Conexión única a la base de datos
+
+### Estructura de Carpetas:
+
+```
+src/
+├── config/           # Configuraciones (DB, env)
+├── controllers/      # Controladores HTTP
+├── middleware/       # Middlewares (auth, validation)
+├── models/          # Interfaces y DTOs
+├── repositories/    # Acceso a datos
+├── services/        # Lógica de negocio
+├── factories/       # Patrones Factory
+├── routes/          # Definición de rutas
+└── app.ts           # Aplicación principal
+```
+
+## 🔍 Ejemplos de Uso
+
+### Registrar Usuario
+
+```javascript
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "username": "trainer_red",
+  "email": "red@pokecollector.com",
+  "password": "securepass123"
+}
+```
+
+### Iniciar Sesión
+
+```javascript
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "red@pokecollector.com",
+  "password": "securepass123"
+}
+
+// Respuesta:
+{
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "user": {
+      "id": "clx...",
+      "username": "trainer_red",
+      "email": "red@pokecollector.com",
+      "role": "COMMON"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  }
+}
+```
+
+### Agregar Carta a Colección
+
+```javascript
+POST /api/cards/collection
+Authorization: Bearer [token]
+Content-Type: application/json
+
+{
+  "cardId": "clx...",
+  "quantity": 2
+}
+```
+
+### Obtener Ranking
+
+```javascript
+GET /api/users/ranking
+
+// Respuesta:
+{
+  "success": true,
+  "message": "Ranking retrieved successfully",
+  "data": [
+    {
+      "userId": "clx...",
+      "username": "ash_ketchum",
+      "totalCards": 5,
+      "uniqueCards": 4,
+      "completionPercentage": 18,
+      "position": 1
+    },
+    // ...
+  ]
+}
+```
+
+## 🐛 Troubleshooting
+
+### Error: "Cannot find module '@prisma/client'"
+```bash
+npm run db:generate
+```
+
+### Error: "Database connection failed"
+- Verifica que la variable `DATABASE_URL` esté configurada
+- Ejecuta `npm run db:push` para crear la base de datos
+
+### Error: "JWT_SECRET not configured"
+- Asegúrate de tener un `JWT_SECRET` en tu archivo `.env`
+
+## 📝 Próximos Pasos
+
+1. **Frontend React**: Crear la interfaz de usuario
+2. **Tests**: Implementar pruebas unitarias e integración
+3. **Deployment**: Configurar despliegue en Railway/Render
+4. **Cache**: Implementar Redis para mejorar performance
+5. **Imágenes**: Sistema de upload de imágenes de cartas
+
+## 🤝 Contribución
+
+Este es un proyecto académico para demostrar principios SOLID y patrones de diseño en un sistema real.

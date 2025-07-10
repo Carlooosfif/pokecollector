@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",         // Requerido para usar require/module en Node
+    "target": "ES2020",           // Opcional, pero útil para compatibilidad moderna
+    "types": ["node"],            // Importante para que reconozca 'require', 'module', etc.
+    "esModuleInterop": true,      // Para importar correctamente módulos comunes como 'fetch'
+    "moduleResolution": "node",   // Estilo de resolución para entorno Node
+    "resolveJsonModule": true     // Si quieres importar JSONs en las pruebas
+  },
+  "include": ["tests"]
+}
