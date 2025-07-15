@@ -198,9 +198,9 @@ const AdminPage: React.FC = () => {
     }
   };
 
-  const getCardsByAlbum = (albumId: string) => {
-    return cards.filter(card => card.albumId === albumId);
-  };
+  //const getCardsByAlbum = (albumId: string) => {
+  //  return cards.filter(card => card.albumId === albumId);
+  //};
 
   if (loading) {
     return <LoadingSpinner message="Cargando panel de administración..." />;
@@ -401,7 +401,7 @@ const AdminPage: React.FC = () => {
                       </div>
                       <div className="user-dates">
                         <p className="text-sm text-secondary">
-                          Registrado: {new Date(user.createdAt).toLocaleDateString()}
+                          Rol asignado: {user.role}
                         </p>
                       </div>
                     </div>
